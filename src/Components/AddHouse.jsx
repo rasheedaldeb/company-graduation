@@ -3,7 +3,7 @@ import "./Add.css";
 const AddHouse = () => {
   const [mainImg, setMainImg] = useState("");
   return (
-    <section className="flex flex-col gap-10 p-10">
+    <section className="flex w-full flex-col gap-10 p-10">
       <form className="flex flex-col gap-6" dir="rtl">
         <div className="grid grid-cols-2 gap-6">
           <div>

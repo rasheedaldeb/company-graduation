@@ -4,7 +4,10 @@ import { StatesContext } from "../Context/Context";
 const StatusButtons = () => {
   const { status, setStatus } = useContext(StatesContext);
   return (
-    <section className="flex items-center justify-between px-10" dir="rtl">
+    <section
+      className="flex items-center justify-center gap-30 px-10"
+      dir="rtl"
+    >
       <button
         onClick={() => setStatus("waiting")}
         className={`${status === "waiting" && "border-primary border bg-white"} bg-primary h-[40px] w-[200px] rounded-xl ${status === "waiting" ? "text-primary" : "text-white"} cursor-pointer`}

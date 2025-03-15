@@ -10,7 +10,7 @@ import AllPosts from "../Components/AllPosts";
 const Home = () => {
   const { type } = useContext(StatesContext);
   return (
-    <div className="flex w-screen justify-between py-10">
+    <div className="flex justify-between py-10">
       <SideBar />
       <div className="flex w-[70%] flex-col gap-10">
         <div className="addPost flex flex-col gap-10">

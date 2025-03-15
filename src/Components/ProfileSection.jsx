@@ -11,6 +11,7 @@ const ProfileSection = () => {
   // company data states
   const [openAboutUsForm, setOpenAboutUsForm] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
+  const [error, setError] = useState("");
   const [companyProfileData, setCompanyProfileData] = useState();
   // add and update  about us states
   const [desc, setDesc] = useState("");
@@ -178,6 +179,9 @@ const ProfileSection = () => {
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
           navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
         }
       }
     };
@@ -634,6 +638,11 @@ const ProfileSection = () => {
             wrapperStyle={{}}
             wrapperClass=""
           />
+        )}
+        {error && (
+          <div className="flex items-center justify-center text-xl text-red-600">
+            {error}
+          </div>
         )}
       </div>
     </section>

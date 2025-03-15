@@ -4,7 +4,7 @@ import { StatesContext } from "../Context/Context";
 const TypeButtons = () => {
   const { type, setType } = useContext(StatesContext);
   return (
-    <section className="flex items-center justify-between px-10">
+    <section className="j flex items-center justify-center gap-30 px-10">
       <button
         onClick={() => setType("villa")}
         className={`${type === "villa" && "border-primary border bg-white"} bg-primary h-[40px] w-[100px] rounded-xl ${type === "villa" ? "text-primary" : "text-white"} cursor-pointer`}
