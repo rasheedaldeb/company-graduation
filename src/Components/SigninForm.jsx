@@ -82,7 +82,7 @@ const SigninForm = () => {
                 name="password"
                 type={showPass ? "text" : "password"}
                 className="h-full w-[80%] outline-none"
-                placeholder="ضع كلمة مرور قوية"
+                placeholder="ضع كلمة المرور"
                 required
                 minLength={8}
                 onChange={(e) => setPassword(e.target.value)}
