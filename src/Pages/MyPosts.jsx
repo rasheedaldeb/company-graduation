@@ -9,7 +9,7 @@ import AcceptedPosts from "../Components/AcceptedPosts";
 const MyPosts = () => {
   const { status } = useContext(StatesContext);
   return (
-    <div className="flex w-screen justify-between py-10">
+    <div className="flex justify-between py-10">
       <SideBar />
       <div className="flex w-[75%] flex-col gap-10">
         <div className="myposts flex flex-col gap-10">
