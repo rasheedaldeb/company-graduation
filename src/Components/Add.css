@@ -1,0 +1,28 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  margin: 0;
+}
+.image-btn {
+  border: 2px solid transparent;
+  background-color: transparent;
+  padding: 2px 15px;
+  font-size: 25px !important;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  background-color: rgb(23, 43, 78);
+  padding: 25px;
+  width: 104px;
+  height: 104px;
+  text-align: center;
+}
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
