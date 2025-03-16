@@ -25,22 +25,21 @@ const AddVilla = () => {
   const [success, setSuccess] = useState("");
   // villa data form
   const villaData = new FormData();
-
+  villaData.append("type", type);
+  villaData.append("salePrice", salePrice);
+  villaData.append("rentPrice", rentPrice);
+  villaData.append("landArea", landArea);
+  villaData.append("buildingArea", buildingArea);
+  villaData.append("area", totalArea);
+  villaData.append("poolArea", poolArea);
+  villaData.append("location", location);
+  villaData.append("deposit", deposite);
+  villaData.append("description", desc);
+  villaData.append("mainImage", mainImg);
   const uploadMultipleImages = (e) => {
     const files = Array.from(e.target.files);
     const newImages = files.map((image) => URL.createObjectURL(image));
     setPreviwImages((prev) => [...prev, ...newImages]);
-    villaData.append("type", type);
-    villaData.append("salePrice", salePrice);
-    villaData.append("rentPrice", rentPrice);
-    villaData.append("landArea", landArea);
-    villaData.append("buildingArea", buildingArea);
-    villaData.append("area", totalArea);
-    villaData.append("poolArea", poolArea);
-    villaData.append("location", location);
-    villaData.append("deposit", deposite);
-    villaData.append("description", desc);
-    villaData.append("mainImage", mainImg);
     villaData.append("images", files);
   };
   // create villa api request
@@ -57,6 +56,17 @@ const AddVilla = () => {
         console.log(res);
         setISSending(false);
         setSuccess(res.data.message);
+        setLandArea("");
+        setBuildingArea("");
+        setPoolArea("");
+        setTotalArea("");
+        setSalePrice("");
+        setRentPrice("");
+        setDeposite("");
+        setLocation("");
+        setDesc("");
+        setMainImg("");
+        setPreviwImages([]);
       })
       .catch((err) => {
         console.log(err);

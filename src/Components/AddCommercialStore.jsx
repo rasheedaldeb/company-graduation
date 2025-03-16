@@ -23,21 +23,20 @@ const AddCommercialStore = () => {
   const [success, setSuccess] = useState("");
   // post form data
   const storeData = new FormData();
-
+  storeData.append("type", type);
+  storeData.append("salePrice", salePrice);
+  storeData.append("rentPrice", rentPrice);
+  storeData.append("landArea", landArea);
+  storeData.append("buildingArea", buildingArea);
+  storeData.append("location", location);
+  storeData.append("deposit", deposite);
+  storeData.append("description", desc);
+  storeData.append("mainImage", mainImg);
   // upload images function
   const uploadMultipleImages = (e) => {
     const files = Array.from(e.target.files);
     const newImages = files.map((image) => URL.createObjectURL(image));
     setPreviwImages((prev) => [...prev, ...newImages]);
-    storeData.append("type", type);
-    storeData.append("salePrice", salePrice);
-    storeData.append("rentPrice", rentPrice);
-    storeData.append("landArea", landArea);
-    storeData.append("buildingArea", buildingArea);
-    storeData.append("location", location);
-    storeData.append("deposit", deposite);
-    storeData.append("description", desc);
-    storeData.append("mainImage", mainImg);
     storeData.append("images", files);
   };
   // post api request
@@ -54,6 +53,15 @@ const AddCommercialStore = () => {
         console.log(res);
         setISSending(false);
         setSuccess(res.data.message);
+        setLandArea("");
+        setBuildingArea("");
+        setSalePrice("");
+        setRentPrice("");
+        setDeposite("");
+        setLocation("");
+        setDesc("");
+        setMainImg("");
+        setPreviwImages([]);
       })
       .catch((err) => {
         console.log(err);

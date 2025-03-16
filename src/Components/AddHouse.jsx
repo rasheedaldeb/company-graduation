@@ -23,21 +23,20 @@ const AddHouse = () => {
   const [success, setSuccess] = useState("");
   // post form data
   const houseData = new FormData();
-
+  houseData.append("type", type);
+  houseData.append("salePrice", salePrice);
+  houseData.append("rentPrice", rentPrice);
+  houseData.append("landArea", landArea);
+  houseData.append("buildingArea", buildingArea);
+  houseData.append("location", location);
+  houseData.append("deposit", deposite);
+  houseData.append("description", desc);
+  houseData.append("mainImage", mainImg);
   // upload images function
   const uploadMultipleImages = (e) => {
     const files = Array.from(e.target.files);
     const newImages = files.map((image) => URL.createObjectURL(image));
     setPreviwImages((prev) => [...prev, ...newImages]);
-    houseData.append("type", type);
-    houseData.append("salePrice", salePrice);
-    houseData.append("rentPrice", rentPrice);
-    houseData.append("landArea", landArea);
-    houseData.append("buildingArea", buildingArea);
-    houseData.append("location", location);
-    houseData.append("deposit", deposite);
-    houseData.append("description", desc);
-    houseData.append("mainImage", mainImg);
     houseData.append("images", files);
   };
   // post api request
@@ -54,6 +53,15 @@ const AddHouse = () => {
         console.log(res);
         setISSending(false);
         setSuccess(res.data.message);
+        setLandArea("");
+        setBuildingArea("");
+        setSalePrice("");
+        setRentPrice("");
+        setDeposite("");
+        setLocation("");
+        setDesc("");
+        setMainImg("");
+        setPreviwImages([]);
       })
       .catch((err) => {
         console.log(err);
