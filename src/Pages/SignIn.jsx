@@ -1,16 +1,17 @@
-import SigninForm from "../Components/SigninForm"
+import SigninForm from "../Components/SigninForm";
 
 const SignIn = () => {
   return (
-    <div className="relative h-screen flex items-center justify-center">
-      <img 
-      src="/images/register-signin.jpg" 
-      alt=""
-      className="absolute top-0 left-0 w-full h-full z-[-1]"
-       loading="lazy"/>
-       <SigninForm/>
+    <div className="flex h-screen items-center justify-center">
+      <img
+        src="/images/register_signin.jpg"
+        alt=""
+        className="h-full w-[45%]"
+        loading="lazy"
+      />
+      <SigninForm />
     </div>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

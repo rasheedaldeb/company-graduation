@@ -57,11 +57,13 @@ const SigninForm = () => {
       className="mt-10 flex w-full flex-col items-center gap-8"
       dir="rtl"
     >
-      <h2 className="text-3xl font-bold text-white">تسجيل الدخول الى الحساب</h2>
+      <h2 className="text-secondary text-3xl font-bold">
+        تسجيل الدخول الى الحساب
+      </h2>
       <form className="w-1/2" onSubmit={(e) => companySignin(e)}>
         <div className="grid grid-cols-1 gap-6">
           <div>
-            <label className="mb-2 block text-lg font-bold text-white">
+            <label className="text-secondary mb-2 block text-lg font-bold">
               البريد الالكتروني
             </label>
             <input
@@ -74,7 +76,7 @@ const SigninForm = () => {
             />
           </div>
           <div>
-            <label className="mb-2 block text-lg font-bold text-white">
+            <label className="text-secondary mb-2 block text-lg font-bold">
               كلمة المرور
             </label>
             <div className="border-primary flex h-[55px] w-full items-center justify-between rounded-3xl border bg-gray-100 px-4 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100">
@@ -109,7 +111,7 @@ const SigninForm = () => {
           <div class="mt-5 flex items-center justify-center">
             <button
               type="submit"
-              class="bg-primary hover:bg-secondary block cursor-pointer rounded-3xl px-6 py-3 text-lg tracking-wider text-white"
+              className="bg-primary hover:bg-secondary block cursor-pointer rounded-3xl px-6 py-3 text-lg tracking-wider text-white"
             >
               {isSignningIn ? (
                 <Oval
