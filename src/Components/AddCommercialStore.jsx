@@ -10,9 +10,11 @@ const AddCommercialStore = () => {
   const { type } = useContext(StatesContext);
   // add store states
   const [mainImg, setMainImg] = useState("");
+  const [images, setImages] = useState([]);
   const [previwImages, setPreviwImages] = useState([]);
   const [landArea, setLandArea] = useState("");
   const [buildingArea, setBuildingArea] = useState("");
+  const [totalArea, setTotalArea] = useState("");
   const [location, setLocation] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [rentPrice, setRentPrice] = useState("");
@@ -21,6 +23,7 @@ const AddCommercialStore = () => {
   const [isSending, setISSending] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  console.log(images);
   // post form data
   const storeData = new FormData();
   storeData.append("type", type);
@@ -28,20 +31,25 @@ const AddCommercialStore = () => {
   storeData.append("rentPrice", rentPrice);
   storeData.append("landArea", landArea);
   storeData.append("buildingArea", buildingArea);
+  storeData.append("area", totalArea);
   storeData.append("location", location);
   storeData.append("deposit", deposite);
   storeData.append("description", desc);
-  storeData.append("mainImage", mainImg);
+  mainImg && storeData.append("mainImage", mainImg);
+  images.forEach((image) => {
+    storeData.append("images", image);
+  });
+  console.log(images);
   // upload images function
   const uploadMultipleImages = (e) => {
     const files = Array.from(e.target.files);
+    setImages((prev) => [...prev, ...files]);
     const newImages = files.map((image) => URL.createObjectURL(image));
     setPreviwImages((prev) => [...prev, ...newImages]);
-    storeData.append("images", files);
   };
   // post api request
   const createStorePost = async (e) => {
-    e.preventDefault(e);
+    e.preventDefault();
     setISSending(true);
     await axios
       .post(`${import.meta.env.VITE_API_URL}/api/post`, storeData, {
@@ -55,16 +63,21 @@ const AddCommercialStore = () => {
         setSuccess(res.data.message);
         setLandArea("");
         setBuildingArea("");
+        setTotalArea("");
         setSalePrice("");
         setRentPrice("");
         setDeposite("");
         setLocation("");
         setDesc("");
         setMainImg("");
+        setTimeout(() => {
+          setSuccess("");
+        }, 2000);
         setPreviwImages([]);
       })
       .catch((err) => {
         console.log(err);
+        setError(err.response.data.message);
         setISSending(false);
         if (err.status === 401) {
           alert(err.response.data.message);
@@ -91,6 +104,7 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="text"
+              value={landArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل مساحة الارض "
               onChange={(e) => setLandArea(e.target.value)}
@@ -103,9 +117,23 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="text"
+              value={buildingArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل مساحة المحل التجاري "
               onChange={(e) => setBuildingArea(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="text-secondary mb-2 block text-lg font-bold">
+              المساحة الكلية
+            </label>
+            <input
+              name="name"
+              type="text"
+              value={totalArea}
+              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+              placeholder="ادخل المساحة الكلية "
+              onChange={(e) => setTotalArea(e.target.value)}
             />
           </div>
           <div>
@@ -115,6 +143,7 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="text"
+              value={location}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل عنوان العقار "
               onChange={(e) => setLocation(e.target.value)}
@@ -127,6 +156,7 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="number"
+              value={salePrice}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل سعر البيع "
               onChange={(e) => setSalePrice(e.target.value)}
@@ -139,6 +169,7 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="number"
+              value={rentPrice}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل سعر الايجار "
               onChange={(e) => setRentPrice(e.target.value)}
@@ -151,21 +182,23 @@ const AddCommercialStore = () => {
             <input
               name="name"
               type="number"
+              value={deposite}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل رعبون الحجز "
               onChange={(e) => setDeposite(e.target.value)}
             />
           </div>
-        </div>
-        <div>
-          <label className="text-secondary mb-2 block text-lg font-bold">
-            وصف العقار
-          </label>
-          <textarea
-            placeholder="اضف وصف للعقار"
-            onChange={(e) => setDesc(e.target.value)}
-            className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-          ></textarea>
+          <div>
+            <label className="text-secondary mb-2 block text-lg font-bold">
+              وصف العقار
+            </label>
+            <textarea
+              placeholder="اضف وصف للعقار"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+            ></textarea>
+          </div>
         </div>
         <div className="image flex items-center justify-between">
           <label

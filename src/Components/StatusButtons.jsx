@@ -9,8 +9,8 @@ const StatusButtons = () => {
       dir="rtl"
     >
       <button
-        onClick={() => setStatus("waiting")}
-        className={`${status === "waiting" && "border-primary border bg-white"} bg-primary h-[40px] w-[200px] rounded-xl ${status === "waiting" ? "text-primary" : "text-white"} cursor-pointer`}
+        onClick={() => setStatus("pending")}
+        className={`${status === "pending" && "border-primary border bg-white"} bg-primary h-[40px] w-[200px] rounded-xl ${status === "pending" ? "text-primary" : "text-white"} cursor-pointer`}
       >
         المنشورات المعلقة
       </button>

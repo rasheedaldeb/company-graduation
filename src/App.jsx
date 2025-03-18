@@ -6,6 +6,7 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
 import MyPosts from "./Pages/MyPosts";
 import RegisteredPosts from "./Pages/RegisteredPosts";
+import UpdatePost from "./Pages/UpdatePost";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
             <Route path="/my-posts" element={<MyPosts />} />
+            <Route path="/update-post/:postId" element={<UpdatePost />} />
             <Route path="/registered-posts" element={<RegisteredPosts />} />
           </Route>
         </Routes>

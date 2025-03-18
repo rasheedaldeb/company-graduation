@@ -10,6 +10,7 @@ const AddVilla = () => {
   const { type } = useContext(StatesContext);
   // add villa states
   const [mainImg, setMainImg] = useState("");
+  const [images, setImages] = useState([]);
   const [previwImages, setPreviwImages] = useState([]);
   const [landArea, setLandArea] = useState("");
   const [buildingArea, setBuildingArea] = useState("");
@@ -35,16 +36,21 @@ const AddVilla = () => {
   villaData.append("location", location);
   villaData.append("deposit", deposite);
   villaData.append("description", desc);
-  villaData.append("mainImage", mainImg);
+  mainImg && villaData.append("mainImage", mainImg);
+  images.forEach((image) => {
+    villaData.append("images", image);
+  });
+  console.log(images);
+  // upload images function
   const uploadMultipleImages = (e) => {
     const files = Array.from(e.target.files);
+    setImages((prev) => [...prev, ...files]);
     const newImages = files.map((image) => URL.createObjectURL(image));
     setPreviwImages((prev) => [...prev, ...newImages]);
-    villaData.append("images", files);
   };
   // create villa api request
   const createVillaPost = async (e) => {
-    e.preventDefault(e);
+    e.preventDefault();
     setISSending(true);
     await axios
       .post(`${import.meta.env.VITE_API_URL}/api/post`, villaData, {
@@ -66,10 +72,14 @@ const AddVilla = () => {
         setLocation("");
         setDesc("");
         setMainImg("");
+        setTimeout(() => {
+          setSuccess("");
+        }, 200);
         setPreviwImages([]);
       })
       .catch((err) => {
         console.log(err);
+        setError(err.response.data.message);
         setISSending(false);
         if (err.status === 401) {
           alert(err.response.data.message);
@@ -96,6 +106,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="text"
+              value={landArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل مساحة الارض "
               onChange={(e) => setLandArea(e.target.value)}
@@ -108,6 +119,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="text"
+              value={buildingArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل مساحة البناء "
               onChange={(e) => setBuildingArea(e.target.value)}
@@ -120,6 +132,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="text"
+              value={poolArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل مساحة المسبح "
               onChange={(e) => setPoolArea(e.target.value)}
@@ -132,6 +145,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="text"
+              value={totalArea}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل المساحة الكلية "
               onChange={(e) => setTotalArea(e.target.value)}
@@ -144,6 +158,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="text"
+              value={location}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل عنوان العقار "
               onChange={(e) => setLocation(e.target.value)}
@@ -156,6 +171,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="number"
+              value={salePrice}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل سعر البيع "
               onChange={(e) => setSalePrice(e.target.value)}
@@ -168,6 +184,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="number"
+              value={rentPrice}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل سعر الايجار "
               onChange={(e) => setRentPrice(e.target.value)}
@@ -180,6 +197,7 @@ const AddVilla = () => {
             <input
               name="name"
               type="number"
+              value={deposite}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
               placeholder="ادخل رعبون الحجز "
               onChange={(e) => setDeposite(e.target.value)}
@@ -192,6 +210,7 @@ const AddVilla = () => {
           </label>
           <textarea
             placeholder="اضف وصف للعقار"
+            value={desc}
             onChange={(e) => setDesc(e.target.value)}
             className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
           ></textarea>
@@ -207,7 +226,6 @@ const AddVilla = () => {
             type="file"
             id="image"
             className="hidden"
-            required
             onChange={(e) => setMainImg(e.target.files[0])}
           />
           <img
