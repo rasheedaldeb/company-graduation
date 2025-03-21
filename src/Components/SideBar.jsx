@@ -56,6 +56,11 @@ const SideBar = () => {
             </Link>
           </li>
           <li>
+            <Link to="/add-estate" className="text-secondary text-xl font-bold">
+              اضافة عقار
+            </Link>
+          </li>
+          <li>
             <Link to="/my-posts" className="text-secondary text-xl font-bold">
               منشوراتي
             </Link>

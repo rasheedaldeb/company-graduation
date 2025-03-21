@@ -8,12 +8,27 @@ const ProfileSection = () => {
   const companyId = localStorage.getItem("companyId");
   const token = localStorage.getItem("companytoken");
   const navigate = useNavigate();
+  // get prev company data states
+  const [prevProfil, setPrevProfile] = useState({
+    name: "",
+    email: "",
+    wallet: "",
+    desc: "",
+    mission: "",
+    vision: "",
+    facebook: "",
+    twitter: "",
+    insta: "",
+    whatsapp: "",
+    telegram: "",
+    linkedin: "",
+  });
   // company data states
   const [openAboutUsForm, setOpenAboutUsForm] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [error, setError] = useState("");
   const [companyProfileData, setCompanyProfileData] = useState();
-  // add and update  about us states
+  // add and  about us states
   const [desc, setDesc] = useState("");
   const [mission, setMission] = useState("");
   const [vision, setVision] = useState("");
@@ -21,7 +36,7 @@ const ProfileSection = () => {
   const [added, setAdded] = useState(false);
   const [aboutUsError, setAboutUsError] = useState("");
   const [aboutUsSuccess, setAboutUsSuccess] = useState("");
-  // add and update social media states
+  // add and social media states
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
   const [insta, setInsta] = useState("");
@@ -32,25 +47,23 @@ const ProfileSection = () => {
   const [socialError, setSocialError] = useState("");
   const [socialSuccess, setSocialSuccess] = useState("");
   // update name and email profile states
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [wallet, setWallet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateError, setUpdateError] = useState("");
   const [updateSuccess, setUpdateSuccess] = useState("");
   // update info form data
   const updateData = new FormData();
-  name && updateData.append("name", name);
-  email && updateData.append("email", email);
-  desc && updateData.append("description", desc);
-  wallet && updateData.append("walletBalance", wallet);
-  mission && updateData.append("mission", mission);
-  vision && updateData.append("vision", vision);
-  twitter && updateData.append("twitter", twitter);
-  insta && updateData.append("instagram", insta);
-  whatsapp && updateData.append("whatsapp", whatsapp);
-  telegram && updateData.append("telegram", telegram);
-  linkedin && updateData.append("linkedin", linkedin);
+  updateData.append("name", prevProfil.name);
+  updateData.append("email", prevProfil.email);
+  updateData.append("description", prevProfil.desc);
+  updateData.append("walletBalance", prevProfil.wallet);
+  updateData.append("mission", prevProfil.mission);
+  updateData.append("vision", prevProfil.vision);
+  updateData.append("facebook", prevProfil.facebook);
+  updateData.append("twitter", prevProfil.twitter);
+  updateData.append("instagram", prevProfil.insta);
+  updateData.append("whatsapp", prevProfil.whatsapp);
+  updateData.append("telegram", prevProfil.telegram);
+  updateData.append("linkedin", prevProfil.linkedin);
   //  update profile data api request
   const updateProfileData = async (e) => {
     e.preventDefault();
@@ -156,6 +169,15 @@ const ProfileSection = () => {
         setTimeout(() => {
           setAboutUsError("");
         }, 2000);
+        if (e.response.status === 401) {
+          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
       });
   };
   //   fetch profile data api request
@@ -172,6 +194,11 @@ const ProfileSection = () => {
         );
         console.log(res);
         setCompanyProfileData(res.data.data);
+        setPrevProfile({
+          name: res.data.data.name,
+          email: res.data.data.email,
+          wallet: res.data.data.walletBalance,
+        });
       } catch (e) {
         console.log(e);
         if (e.response.status === 401) {
@@ -187,7 +214,44 @@ const ProfileSection = () => {
     };
     fetchCompanyData();
   }, [added]);
-
+  // fetch prev aboutUs api request
+  useEffect(() => {
+    const fetchPrevAboutUs = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/about_us/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPrevAboutUs();
+  }, []);
+  // fetch prev social media api request
+  useEffect(() => {
+    const fetchPrevSocialMedia = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/socialMedia/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPrevSocialMedia();
+  }, []);
   return (
     // profile jsx
     <section className="flex flex-col items-center gap-10">
@@ -464,7 +528,13 @@ const ProfileSection = () => {
                       <input
                         type="text"
                         placeholder="ادخل اسمك"
-                        onChange={(e) => setName(e.target.value)}
+                        value={prevProfil.name}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            name: e.target.value,
+                          })
+                        }
                         className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       />
                     </div>
@@ -474,7 +544,13 @@ const ProfileSection = () => {
                       </label>
                       <input
                         type="email"
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={prevProfil.email}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            email: e.target.value,
+                          })
+                        }
                         placeholder="ادخل بريدك الالكتروني "
                         className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       />
@@ -487,7 +563,13 @@ const ProfileSection = () => {
                       </label>
                       <input
                         type="number"
-                        onChange={(e) => setWallet(e.target.value)}
+                        value={prevProfil.wallet}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            wallet: e.target.value,
+                          })
+                        }
                         placeholder="ادخل قيمة الرصيد "
                         className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       />
@@ -499,7 +581,10 @@ const ProfileSection = () => {
                     </label>
                     <textarea
                       placeholder="اضف وصف"
-                      onChange={(e) => setDesc(e.target.value)}
+                      value={prevProfil.desc}
+                      onChange={(e) =>
+                        setPrevProfile({ ...prevProfil, desc: e.target.value })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                     ></textarea>
                   </div>
@@ -510,7 +595,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="text"
-                      onChange={(e) => setMission(e.target.value)}
+                      value={prevProfil.mission}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          mission: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الهدف "
                     />
@@ -522,7 +613,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="text"
-                      onChange={(e) => setVision(e.target.value)}
+                      value={prevProfil.vision}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          vision: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرؤية "
                     />
@@ -534,7 +631,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setFacebook(e.target.value)}
+                      value={prevProfil.facebook}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          facebook: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />
@@ -546,7 +649,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setTwitter(e.target.value)}
+                      value={prevProfil.twitter}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          twitter: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />
@@ -558,7 +667,10 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setInsta(e.target.value)}
+                      value={prevProfil.insta}
+                      onChange={(e) =>
+                        setPrevProfile({ ...prevProfil, insta: e.target.value })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />
@@ -570,7 +682,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setWhatsapp(e.target.value)}
+                      value={prevProfil.whatsapp}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          whatsapp: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />
@@ -582,7 +700,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setTelegram(e.target.value)}
+                      value={prevProfil.telegram}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          telegram: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />
@@ -594,7 +718,13 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      onChange={(e) => setLinkedin(e.target.value)}
+                      value={prevProfil.linkedin}
+                      onChange={(e) =>
+                        setPrevProfile({
+                          ...prevProfil,
+                          linkedin: e.target.value,
+                        })
+                      }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
                     />

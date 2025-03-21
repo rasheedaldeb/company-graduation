@@ -8,6 +8,7 @@ import MyPosts from "./Pages/MyPosts";
 import RegisteredPosts from "./Pages/RegisteredPosts";
 import UpdatePost from "./Pages/UpdatePost";
 import SinglePost from "./Pages/SinglePost";
+import AddEstate from "./Pages/AddEstate";
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
+            <Route path="/add-estate" element={<AddEstate />} />
             <Route path="/my-posts" element={<MyPosts />} />
             <Route path="/update-post/:postId/:type" element={<UpdatePost />} />
             <Route path="/single-post/:id" element={<SinglePost />} />
