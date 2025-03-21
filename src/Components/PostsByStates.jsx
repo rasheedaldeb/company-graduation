@@ -177,7 +177,9 @@ const PostsByStates = () => {
                     <h4 className="text-primary text-xl font-bold">
                       سعر الرعبون:
                     </h4>
-                    <p className="text-secondary text-lg font-bold">50$</p>
+                    <p className="text-secondary text-lg font-bold">
+                      {item.deposit}$
+                    </p>
                   </div>
                 </div>
               </div>
@@ -227,7 +229,7 @@ const PostsByStates = () => {
                     </div>
                   </div>
                   <Link
-                    to={`/update-post/${item.id}`}
+                    to={`/update-post/${item.id}/${item.type}`}
                     className="cursor-pointer rounded-xl bg-orange-500 px-6 py-3 text-white"
                   >
                     تعديل

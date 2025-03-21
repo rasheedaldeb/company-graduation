@@ -6,7 +6,7 @@ import { StatesContext } from "../Context/Context";
 import AddVilla from "../Components/AddVilla";
 import AddHouse from "../Components/AddHouse";
 import AddCommercialStore from "../Components/AddCommercialStore";
-import AllPosts from "../Components/AllPosts";
+import AllPosts from "../Components/AllPosts/AllPosts";
 const Home = () => {
   const { type } = useContext(StatesContext);
   return (

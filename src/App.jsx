@@ -7,6 +7,7 @@ import Profile from "./Pages/Profile";
 import MyPosts from "./Pages/MyPosts";
 import RegisteredPosts from "./Pages/RegisteredPosts";
 import UpdatePost from "./Pages/UpdatePost";
+import SinglePost from "./Pages/SinglePost";
 function App() {
   return (
     <>
@@ -17,7 +18,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
             <Route path="/my-posts" element={<MyPosts />} />
-            <Route path="/update-post/:postId" element={<UpdatePost />} />
+            <Route path="/update-post/:postId/:type" element={<UpdatePost />} />
+            <Route path="/single-post/:id" element={<SinglePost />} />
             <Route path="/registered-posts" element={<RegisteredPosts />} />
           </Route>
         </Routes>

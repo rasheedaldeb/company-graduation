@@ -12,9 +12,7 @@ const AddCommercialStore = () => {
   const [mainImg, setMainImg] = useState("");
   const [images, setImages] = useState([]);
   const [previwImages, setPreviwImages] = useState([]);
-  const [landArea, setLandArea] = useState("");
-  const [buildingArea, setBuildingArea] = useState("");
-  const [totalArea, setTotalArea] = useState("");
+  const [area, setArea] = useState("");
   const [location, setLocation] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [rentPrice, setRentPrice] = useState("");
@@ -29,9 +27,7 @@ const AddCommercialStore = () => {
   storeData.append("type", type);
   storeData.append("salePrice", salePrice);
   storeData.append("rentPrice", rentPrice);
-  storeData.append("landArea", landArea);
-  storeData.append("buildingArea", buildingArea);
-  storeData.append("area", totalArea);
+  storeData.append("area", area);
   storeData.append("location", location);
   storeData.append("deposit", deposite);
   storeData.append("description", desc);
@@ -61,9 +57,7 @@ const AddCommercialStore = () => {
         console.log(res);
         setISSending(false);
         setSuccess(res.data.message);
-        setLandArea("");
-        setBuildingArea("");
-        setTotalArea("");
+        setArea("");
         setSalePrice("");
         setRentPrice("");
         setDeposite("");
@@ -99,41 +93,15 @@ const AddCommercialStore = () => {
         <div className="grid grid-cols-2 gap-6">
           <div>
             <label className="text-secondary mb-2 block text-lg font-bold">
-              مساحة الأرض
+              المساحة
             </label>
             <input
               name="name"
               type="text"
-              value={landArea}
+              value={area}
               className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-              placeholder="ادخل مساحة الارض "
-              onChange={(e) => setLandArea(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="text-secondary mb-2 block text-lg font-bold">
-              مساحة المحل التجاري
-            </label>
-            <input
-              name="name"
-              type="text"
-              value={buildingArea}
-              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-              placeholder="ادخل مساحة المحل التجاري "
-              onChange={(e) => setBuildingArea(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="text-secondary mb-2 block text-lg font-bold">
-              المساحة الكلية
-            </label>
-            <input
-              name="name"
-              type="text"
-              value={totalArea}
-              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-              placeholder="ادخل المساحة الكلية "
-              onChange={(e) => setTotalArea(e.target.value)}
+              placeholder="ادخل المساحة  "
+              onChange={(e) => setArea(e.target.value)}
             />
           </div>
           <div>

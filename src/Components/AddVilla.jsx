@@ -14,7 +14,6 @@ const AddVilla = () => {
   const [previwImages, setPreviwImages] = useState([]);
   const [landArea, setLandArea] = useState("");
   const [buildingArea, setBuildingArea] = useState("");
-  const [totalArea, setTotalArea] = useState("");
   const [poolArea, setPoolArea] = useState("");
   const [location, setLocation] = useState("");
   const [salePrice, setSalePrice] = useState("");
@@ -31,7 +30,6 @@ const AddVilla = () => {
   villaData.append("rentPrice", rentPrice);
   villaData.append("landArea", landArea);
   villaData.append("buildingArea", buildingArea);
-  villaData.append("area", totalArea);
   villaData.append("poolArea", poolArea);
   villaData.append("location", location);
   villaData.append("deposit", deposite);
@@ -65,7 +63,6 @@ const AddVilla = () => {
         setLandArea("");
         setBuildingArea("");
         setPoolArea("");
-        setTotalArea("");
         setSalePrice("");
         setRentPrice("");
         setDeposite("");
@@ -140,19 +137,6 @@ const AddVilla = () => {
           </div>
           <div>
             <label className="text-secondary mb-2 block text-lg font-bold">
-              المساحة الكلية
-            </label>
-            <input
-              name="name"
-              type="text"
-              value={totalArea}
-              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-              placeholder="ادخل المساحة الكلية "
-              onChange={(e) => setTotalArea(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="text-secondary mb-2 block text-lg font-bold">
               عنوان العقار
             </label>
             <input
@@ -203,17 +187,17 @@ const AddVilla = () => {
               onChange={(e) => setDeposite(e.target.value)}
             />
           </div>
-        </div>
-        <div>
-          <label className="text-secondary mb-2 block text-lg font-bold">
-            وصف العقار
-          </label>
-          <textarea
-            placeholder="اضف وصف للعقار"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-            className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-          ></textarea>
+          <div>
+            <label className="text-secondary mb-2 block text-lg font-bold">
+              وصف العقار
+            </label>
+            <textarea
+              placeholder="اضف وصف للعقار"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+            ></textarea>
+          </div>
         </div>
         <div className="image flex items-center justify-between">
           <label
