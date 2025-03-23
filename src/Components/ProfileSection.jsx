@@ -3,26 +3,30 @@ import SectionHeader from "./SectionHeader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
-
 const ProfileSection = () => {
-  const companyId = localStorage.getItem("companyId");
+  const id = localStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId2");
   const token = localStorage.getItem("companytoken");
   const navigate = useNavigate();
   // get prev company data states
   const [prevProfil, setPrevProfile] = useState({
     name: "",
-    email: "",
+    image: "",
     wallet: "",
-    desc: "",
-    mission: "",
-    vision: "",
-    facebook: "",
-    twitter: "",
-    insta: "",
-    whatsapp: "",
-    telegram: "",
-    linkedin: "",
+    companyId: "",
   });
+  const [newProfileImage, setNewProfileImage] = useState("");
+  // get prev about us states
+  const [prevDesc, setPrevDesc] = useState("");
+  const [prevMission, setPrevMisson] = useState("");
+  const [prevVision, setPrevVision] = useState("");
+  // get prev social media states
+  const [prevFacebook, setPrevFacebook] = useState("");
+  const [prevTwitter, setPrevTwitter] = useState("");
+  const [prevInsta, setPrevInsta] = useState("");
+  const [prevWhatsapp, setPrevWhatsapp] = useState("");
+  const [prevTelegram, setPrevTelegram] = useState("");
+  const [prevLinkedin, setPrevLinkedin] = useState("");
   // company data states
   const [openAboutUsForm, setOpenAboutUsForm] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
@@ -52,25 +56,121 @@ const ProfileSection = () => {
   const [updateSuccess, setUpdateSuccess] = useState("");
   // update info form data
   const updateData = new FormData();
-  updateData.append("name", prevProfil.name);
-  updateData.append("email", prevProfil.email);
-  updateData.append("description", prevProfil.desc);
-  updateData.append("walletBalance", prevProfil.wallet);
-  updateData.append("mission", prevProfil.mission);
-  updateData.append("vision", prevProfil.vision);
-  updateData.append("facebook", prevProfil.facebook);
-  updateData.append("twitter", prevProfil.twitter);
-  updateData.append("instagram", prevProfil.insta);
-  updateData.append("whatsapp", prevProfil.whatsapp);
-  updateData.append("telegram", prevProfil.telegram);
-  updateData.append("linkedin", prevProfil.linkedin);
+  prevProfil.name && updateData.append("name", prevProfil.name);
+  prevProfil && updateData.append("profileImageUrl", prevProfil.image);
+  prevProfil.desc && updateData.append("description", prevProfil.desc);
+  prevProfil.wallet && updateData.append("walletBalance", prevProfil.wallet);
+  prevDesc && updateData.append("description", prevDesc);
+  prevMission && updateData.append("mission", prevMission);
+  prevVision && updateData.append("vision", prevVision);
+  prevProfil.twitter && updateData.append("twitter", prevProfil.twitter);
+  prevProfil.insta && updateData.append("instagram", prevProfil.insta);
+  prevProfil.whatsapp && updateData.append("whatsapp", prevProfil.whatsapp);
+  prevProfil.telegram && updateData.append("telegram", prevProfil.telegram);
+  prevProfil.linkedin && updateData.append("linkedin", prevProfil.linkedin);
+
+  //   fetch profile data api request
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/account/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(res);
+        setCompanyProfileData(res.data.data);
+        setPrevProfile({
+          name: res.data.data.name,
+          image: res.data.data.profileImageUrl,
+          companyId: res.data.data.companyID,
+        });
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 401) {
+          alert(e.response.data.message);
+          localStorage.removeItem("companytoken");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
+      }
+    };
+    fetchCompanyData();
+  }, [added]);
+  // fetch prev aboutUs api request
+  useEffect(() => {
+    const fetchPrevAboutUs = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/about_us/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(res);
+        setPrevDesc(res.data.data.description);
+        setPrevMisson(res.data.data.vision);
+        setPrevVision(res.data.data.vision);
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 401) {
+          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
+          localStorage.removeItem("companytoken");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
+      }
+    };
+    fetchPrevAboutUs();
+  }, []);
+  // fetch prev social media api request
+  useEffect(() => {
+    const fetchPrevSocialMedia = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/socialMedia/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(res);
+        setPrevFacebook(res.data.data.facebook);
+        setPrevInsta(res.data.data.instagram);
+        setPrevWhatsapp(res.data.data.whatsapp);
+        setPrevTelegram(res.data.data.telegram);
+        setPrevLinkedin(res.data.data.linkedin);
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 401) {
+          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
+          localStorage.removeItem("companytoken");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
+      }
+    };
+    fetchPrevSocialMedia();
+  }, []);
   //  update profile data api request
   const updateProfileData = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
     await axios
       .put(
-        `${import.meta.env.VITE_API_URL}/api/auth/editAccount/${companyId}`,
+        `${import.meta.env.VITE_API_URL}/api/auth/editAccount/${id}`,
         updateData,
         {
           headers: {
@@ -95,26 +195,37 @@ const ProfileSection = () => {
         setTimeout(() => {
           setUpdateError("");
         }, 2000);
+        if (e.response.status === 401) {
+          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
+          localStorage.removeItem("companytoken");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
       });
   };
-  // social media form data
-  const socialData = new FormData();
-  facebook && socialData.append("facebook", facebook);
-  twitter && socialData.append("twitter", twitter);
-  insta && socialData.append("instagram", insta);
-  whatsapp && socialData.append("whatsapp", whatsapp);
-  telegram && socialData.append("telegram", telegram);
-  linkedin && socialData.append("linkedin", linkedin);
   // add social media api request
   const addSocialMedia = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     await axios
-      .post(`${import.meta.env.VITE_API_URL}/api/socialMedia`, socialData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .post(
+        `${import.meta.env.VITE_API_URL}/api/socialMedia`,
+        {
+          facebook: facebook,
+          twitter: twitter,
+          instsgram: insta,
+          whatsapp: whatsapp,
+          telegram: telegram,
+          linkedin: linkedin,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
       .then((res) => {
         console.log(res);
         setIsSubmitting(false);
@@ -132,6 +243,14 @@ const ProfileSection = () => {
         setTimeout(() => {
           setSocialError("");
         }, 2000);
+        if (e.response.status === 401) {
+          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
+          localStorage.removeItem("companytoken");
+          navigate("/company-signin");
+        }
+        if (e.message === "Network Error") {
+          setError("لا يوجد اتصال بالانترنت");
+        }
       });
   };
   // about us api request
@@ -171,8 +290,7 @@ const ProfileSection = () => {
         }, 2000);
         if (e.response.status === 401) {
           alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
-          localStorage.removeItem("token");
-          localStorage.removeItem("userId");
+          localStorage.removeItem("companytoken");
           navigate("/company-signin");
         }
         if (e.message === "Network Error") {
@@ -180,78 +298,6 @@ const ProfileSection = () => {
         }
       });
   };
-  //   fetch profile data api request
-  useEffect(() => {
-    const fetchCompanyData = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/auth/account/${companyId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        console.log(res);
-        setCompanyProfileData(res.data.data);
-        setPrevProfile({
-          name: res.data.data.name,
-          email: res.data.data.email,
-          wallet: res.data.data.walletBalance,
-        });
-      } catch (e) {
-        console.log(e);
-        if (e.response.status === 401) {
-          alert("انتهت صلاحية الجلسة سجل الدخول مرة اخرى");
-          localStorage.removeItem("token");
-          localStorage.removeItem("userId");
-          navigate("/company-signin");
-        }
-        if (e.message === "Network Error") {
-          setError("لا يوجد اتصال بالانترنت");
-        }
-      }
-    };
-    fetchCompanyData();
-  }, [added]);
-  // fetch prev aboutUs api request
-  useEffect(() => {
-    const fetchPrevAboutUs = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/about_us/${companyId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        console.log(res);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchPrevAboutUs();
-  }, []);
-  // fetch prev social media api request
-  useEffect(() => {
-    const fetchPrevSocialMedia = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/socialMedia/${companyId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        console.log(res);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchPrevSocialMedia();
-  }, []);
   return (
     // profile jsx
     <section className="flex flex-col items-center gap-10">
@@ -265,7 +311,7 @@ const ProfileSection = () => {
             {/* company image and name */}
             <div className="top flex w-full flex-col items-center border-b border-white py-5">
               <img
-                src={`https://real-estate-app-i5m8.onrender.com${companyProfileData.profileImageUrl}`}
+                src={`${import.meta.env.VITE_API_URL}${companyProfileData.profileImageUrl}`}
                 alt="avatar"
                 className="h-[150px] w-[150px] rounded-full border border-gray-200 p-3"
               />
@@ -520,7 +566,7 @@ const ProfileSection = () => {
                   className="flex flex-col gap-10"
                   onSubmit={(e) => updateProfileData(e)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-5">
                     <div className="name">
                       <label className="mb-2 block text-lg font-bold text-white">
                         الاسم
@@ -538,22 +584,38 @@ const ProfileSection = () => {
                         className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       />
                     </div>
-                    <div className="email">
-                      <label className="mb-2 block text-lg font-bold text-white">
-                        البريد الالكتروني
-                      </label>
-                      <input
-                        type="email"
-                        value={prevProfil.email}
-                        onChange={(e) =>
-                          setPrevProfile({
-                            ...prevProfil,
-                            email: e.target.value,
-                          })
-                        }
-                        placeholder="ادخل بريدك الالكتروني "
-                        className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
-                      />
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label
+                          htmlFor="image"
+                          className="bg-primary mb-2 block cursor-pointer rounded-xl p-3 text-lg font-bold text-white"
+                        >
+                          اضافة صورة جديدة
+                        </label>
+                        <input
+                          id="image"
+                          type="file"
+                          className="hidden"
+                          onChange={(e) => {
+                            setPrevProfile({
+                              ...prevProfil,
+                              image: e.target.files[0],
+                            }),
+                              setNewProfileImage(e.target.files[0]);
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <img
+                          src={
+                            newProfileImage
+                              ? URL.createObjectURL(newProfileImage)
+                              : `${import.meta.env.VITE_API_URL}${prevProfil.image}`
+                          }
+                          alt="avatar"
+                          className="h-[100px] w-[100px] rounded-xl border border-white"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -581,10 +643,8 @@ const ProfileSection = () => {
                     </label>
                     <textarea
                       placeholder="اضف وصف"
-                      value={prevProfil.desc}
-                      onChange={(e) =>
-                        setPrevProfile({ ...prevProfil, desc: e.target.value })
-                      }
+                      value={prevDesc}
+                      onChange={(e) => setPrevDesc(...prevDesc, e.target.value)}
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                     ></textarea>
                   </div>
@@ -595,12 +655,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="text"
-                      value={prevProfil.mission}
+                      value={prevMission}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          mission: e.target.value,
-                        })
+                        setPrevMisson(...prevMission, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الهدف "
@@ -613,12 +670,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="text"
-                      value={prevProfil.vision}
+                      value={prevVision}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          vision: e.target.value,
-                        })
+                        setPrevVision(...prevVision, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرؤية "
@@ -631,12 +685,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.facebook}
+                      value={prevFacebook}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          facebook: e.target.value,
-                        })
+                        setPrevFacebook(...prevFacebook, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
@@ -649,12 +700,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.twitter}
+                      value={prevTwitter}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          twitter: e.target.value,
-                        })
+                        setPrevTwitter(...prevTwitter, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
@@ -667,9 +715,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.insta}
+                      value={prevInsta}
                       onChange={(e) =>
-                        setPrevProfile({ ...prevProfil, insta: e.target.value })
+                        setPrevInsta(...prevInsta, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
@@ -682,12 +730,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.whatsapp}
+                      value={prevWhatsapp}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          whatsapp: e.target.value,
-                        })
+                        setPrevWhatsapp(...prevWhatsapp, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
@@ -700,12 +745,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.telegram}
+                      value={prevTelegram}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          telegram: e.target.value,
-                        })
+                        setPrevTelegram(...prevTelegram, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"
@@ -718,12 +760,9 @@ const ProfileSection = () => {
                     <input
                       name="name"
                       type="url"
-                      value={prevProfil.linkedin}
+                      value={[prevLinkedin]}
                       onChange={(e) =>
-                        setPrevProfile({
-                          ...prevProfil,
-                          linkedin: e.target.value,
-                        })
+                        setPrevLinkedin(...prevLinkedin, e.target.value)
                       }
                       className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       placeholder="ادخل الرابط الجديد"

@@ -91,10 +91,31 @@ const SinglePostSectionContent = () => {
                   </div>
                 </div>
                 <div className="space-floor border-primary flex w-full items-center justify-between border-b pb-3">
-                  <div className="space" dir="rtl">
-                    <h4 className="text-secondary text-xl">المساحة</h4>
-                    <p className="text-primary text-lg">.. متر</p>
-                  </div>
+                  {item.CommercialStoreOrHouse && (
+                    <div className="space" dir="rtl">
+                      <h4 className="text-secondary text-xl">المساحة</h4>
+                      <p className="text-primary text-lg">
+                        {" "}
+                        {item.CommercialStoreOrHouse.area}متر
+                      </p>
+                    </div>
+                  )}
+                  {item.Villa && (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="landArea flex items-center gap-2">
+                        <h4 className="text-secondary text-xl">مساحة الارض</h4>
+                        <p className="text-primary text-lg">
+                          {item.Villa.landArea}
+                        </p>
+                      </div>
+                      <div className="buildingArea">
+                        <h4 className="text-secondary text-xl">مساحة الفيلا</h4>
+                        <p className="text-primary text-lg">
+                          {item.Villa.buildingArea}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <div className="floor" dir="rtl">
                     <h4 className="text-secondary text-xl">العنوان</h4>
                     <p className="text-primary text-lg">

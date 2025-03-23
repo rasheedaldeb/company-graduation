@@ -42,6 +42,7 @@ const SigninForm = () => {
             setIsSignningIn(false);
             localStorage.setItem("companytoken", res.data.token);
             localStorage.setItem("companyId", res.data.data.id);
+            localStorage.setItem("companyId2", res.data.data.companyId);
             navigate("/");
           }
         }, 2000);

@@ -22,7 +22,8 @@ const SideBar = () => {
       .then((res) => {
         setIsLoggingOut(false);
         console.log(res);
-        localStorage.removeItem("token");
+        localStorage.removeItem("companytoken");
+        alert(res.data.message);
         navigate("/admin-signin");
       })
       .catch((err) => {
