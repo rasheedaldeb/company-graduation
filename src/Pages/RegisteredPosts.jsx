@@ -7,7 +7,7 @@ const RegisteredPosts = () => {
   return (
     <div className="flex justify-between py-10">
       <SideBar />
-      <div className="flex w-[70%] flex-col gap-10">
+      <div className="flex w-[80%] flex-col gap-10">
         <SectionHeader title="العقارات المحجوزة" />
         <RegisteredPostsSection />
       </div>
