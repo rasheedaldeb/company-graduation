@@ -18,7 +18,11 @@ const ProfileSection = () => {
     companyId: "",
     oldPassword: "",
     password: "",
+    phone: "",
+    location: "",
+    websiteUrl: "",
   });
+  console.log(prevProfil.phone);
   const [newProfileImage, setNewProfileImage] = useState("");
   // get prev about us states
   const [prevDesc, setPrevDesc] = useState("");
@@ -67,6 +71,10 @@ const ProfileSection = () => {
   prevProfil.oldPassword &&
     updateData.append("oldPassword", prevProfil.oldPassword);
   prevProfil.password && updateData.append("password", prevProfil.password);
+  prevProfil.phone && updateData.append("phone", prevProfil.phone);
+  prevProfil.location && updateData.append("location", prevProfil.location);
+  prevProfil.websiteUrl &&
+    updateData.append("webSiteUrl", prevProfil.webSiteURL);
   prevDesc && updateData.append("description", prevDesc);
   prevMission && updateData.append("mission", prevMission);
   prevVision && updateData.append("vision", prevVision);
@@ -94,6 +102,9 @@ const ProfileSection = () => {
           name: res.data.data.name,
           image: res.data.data.profileImageUrl,
           companyId: res.data.data.companyID,
+          phone: res.data.data.phone,
+          location: res.data.data.location,
+          websiteUrl: res.data.data.webSiteURL,
         });
       } catch (e) {
         console.log(e);
@@ -601,7 +612,6 @@ const ProfileSection = () => {
                           type={showOldPass ? "text" : "password"}
                           className="h-full w-[80%] outline-none"
                           placeholder="ضع كلمة المرور"
-                          required
                           minLength={8}
                           value={prevProfil.oldPassword}
                           onChange={(e) =>
@@ -633,7 +643,6 @@ const ProfileSection = () => {
                           type={showNewPass ? "text" : "password"}
                           className="h-full w-[80%] outline-none"
                           placeholder="ضع كلمة المرور"
-                          required
                           minLength={8}
                           value={prevProfil.password}
                           onChange={(e) =>
@@ -654,6 +663,57 @@ const ProfileSection = () => {
                           className="cursor-pointer"
                         />
                       </div>
+                    </div>
+                    <div className="name">
+                      <label className="mb-2 block text-lg font-bold text-white">
+                        تعديل العنوان
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="ادخل العنوان"
+                        value={prevProfil.location}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            location: e.target.value,
+                          })
+                        }
+                        className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+                      />
+                    </div>
+                    <div className="name">
+                      <label className="mb-2 block text-lg font-bold text-white">
+                        تعديل رقم الهاتف
+                      </label>
+                      <input
+                        type="phone"
+                        placeholder="ادخل الرقم"
+                        value={prevProfil.phone}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            phone: e.target.value,
+                          })
+                        }
+                        className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+                      />
+                    </div>
+                    <div className="name">
+                      <label className="mb-2 block text-lg font-bold text-white">
+                        تعديل موقع الشركة
+                      </label>
+                      <input
+                        type="url"
+                        placeholder=" ادخل الرابط"
+                        value={prevProfil.websiteUrl}
+                        onChange={(e) =>
+                          setPrevProfile({
+                            ...prevProfil,
+                            websiteUrl: e.target.value,
+                          })
+                        }
+                        className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
+                      />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
