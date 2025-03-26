@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 const ProfileSection = () => {
+  const [showOldPass, setShowOldPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
   const id = localStorage.getItem("companyId");
   const companyId = localStorage.getItem("companyId2");
   const token = localStorage.getItem("companytoken");
@@ -14,6 +16,8 @@ const ProfileSection = () => {
     image: "",
     wallet: "",
     companyId: "",
+    oldPassword: "",
+    password: "",
   });
   const [newProfileImage, setNewProfileImage] = useState("");
   // get prev about us states
@@ -60,6 +64,9 @@ const ProfileSection = () => {
   prevProfil && updateData.append("profileImageUrl", prevProfil.image);
   prevProfil.desc && updateData.append("description", prevProfil.desc);
   prevProfil.wallet && updateData.append("walletBalance", prevProfil.wallet);
+  prevProfil.oldPassword &&
+    updateData.append("oldPassword", prevProfil.oldPassword);
+  prevProfil.password && updateData.append("password", prevProfil.password);
   prevDesc && updateData.append("description", prevDesc);
   prevMission && updateData.append("mission", prevMission);
   prevVision && updateData.append("vision", prevVision);
@@ -583,6 +590,70 @@ const ProfileSection = () => {
                         }
                         className="border-primary w-full rounded-3xl border bg-gray-100 px-4 py-3 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100"
                       />
+                    </div>
+                    <div>
+                      <label className="mb-2 block text-lg font-bold text-white">
+                        كلمة المرور القديمة
+                      </label>
+                      <div className="border-primary flex h-[55px] w-full items-center justify-between rounded-3xl border bg-gray-100 px-4 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100">
+                        <input
+                          name="password"
+                          type={showOldPass ? "text" : "password"}
+                          className="h-full w-[80%] outline-none"
+                          placeholder="ضع كلمة المرور"
+                          required
+                          minLength={8}
+                          value={prevProfil.oldPassword}
+                          onChange={(e) =>
+                            setPrevProfile({
+                              ...prevProfil,
+                              oldPassword: e.target.value,
+                            })
+                          }
+                        />
+                        <img
+                          src={
+                            showOldPass
+                              ? "/public/images/eye.png"
+                              : "/images/closed-eye.png"
+                          }
+                          alt="eye"
+                          onClick={() => setShowOldPass(!showOldPass)}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-2 block text-lg font-bold text-white">
+                        كلمة المرور الجديدة
+                      </label>
+                      <div className="border-primary flex h-[55px] w-full items-center justify-between rounded-3xl border bg-gray-100 px-4 text-lg text-gray-800 transition-all outline-none focus:bg-gray-100">
+                        <input
+                          name="password"
+                          type={showNewPass ? "text" : "password"}
+                          className="h-full w-[80%] outline-none"
+                          placeholder="ضع كلمة المرور"
+                          required
+                          minLength={8}
+                          value={prevProfil.password}
+                          onChange={(e) =>
+                            setPrevProfile({
+                              ...prevProfil,
+                              password: e.target.value,
+                            })
+                          }
+                        />
+                        <img
+                          src={
+                            showNewPass
+                              ? "/public/images/eye.png"
+                              : "/images/closed-eye.png"
+                          }
+                          alt="eye"
+                          onClick={() => setShowNewPass(!showNewPass)}
+                          className="cursor-pointer"
+                        />
+                      </div>
                     </div>
                     <div className="flex items-center justify-between">
                       <div>

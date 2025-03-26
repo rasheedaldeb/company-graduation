@@ -125,9 +125,9 @@ const SinglePostSectionContent = () => {
                       {item.Villa && item.Villa.location}
                     </p>
                   </div>
-                  <div className="created-at">
+                  <div className="created-at flex flex-col items-center gap-2">
                     <h4 className="text-secondary text-xl">تاريخ النشر</h4>
-                    <p className="text-primary text-lg">
+                    <p className="text-primary text-center text-lg">
                       {item.CommercialStoreOrHouse &&
                         item.CommercialStoreOrHouse.createdAt}
                       {item.Villa && item.Villa.createdAt}
