@@ -83,7 +83,9 @@ const AllPosts = () => {
           {allPosts.length !== 0 ? (
             allPosts
               .filter((item) =>
-                item.Account.name.toLowerCase().includes(inputValue),
+                item.Account.name
+                  .toLowerCase()
+                  .includes(inputValue.toLowerCase()),
               )
               .map((item) => (
                 <SwiperSlide>
