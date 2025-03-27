@@ -52,8 +52,8 @@ const AllPosts = () => {
     <section className="flex flex-col items-center gap-8 px-10">
       <SectionHeader title=" كافة المنشورات " />
       <input
-        type="text"
-        placeholder=" ابحث عن الشركة"
+        type="search"
+        placeholder=" ابحث عن اسم الشركة"
         onChange={(e) => setInputValue(e.target.value)}
         className="border-primary min-h-[60px] w-full rounded-3xl border px-3 outline-none"
         dir="rtl"
