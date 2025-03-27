@@ -74,7 +74,7 @@ const ProfileSection = () => {
   prevProfil.phone && updateData.append("phone", prevProfil.phone);
   prevProfil.location && updateData.append("location", prevProfil.location);
   prevProfil.websiteUrl &&
-    updateData.append("webSiteUrl", prevProfil.websiteUrl);
+    updateData.append("webSiteURL", prevProfil.websiteUrl);
   prevDesc && updateData.append("description", prevDesc);
   prevMission && updateData.append("mission", prevMission);
   prevVision && updateData.append("vision", prevVision);
@@ -164,6 +164,7 @@ const ProfileSection = () => {
         );
         console.log(res);
         setPrevFacebook(res.data.data.facebook);
+        setPrevTwitter(res.data.data.twitter);
         setPrevInsta(res.data.data.instagram);
         setPrevWhatsapp(res.data.data.whatsapp);
         setPrevTelegram(res.data.data.telegram);
