@@ -74,7 +74,7 @@ const ProfileSection = () => {
   prevProfil.phone && updateData.append("phone", prevProfil.phone);
   prevProfil.location && updateData.append("location", prevProfil.location);
   prevProfil.websiteUrl &&
-    updateData.append("webSiteUrl", prevProfil.webSiteURL);
+    updateData.append("webSiteUrl", prevProfil.websiteUrl);
   prevDesc && updateData.append("description", prevDesc);
   prevMission && updateData.append("mission", prevMission);
   prevVision && updateData.append("vision", prevVision);
