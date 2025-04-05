@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Oval } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SigninForm = () => {
   const [showPass, setShowPass] = useState(false);
@@ -109,10 +109,16 @@ const SigninForm = () => {
               {success}
             </div>
           )}
-          <div class="mt-5 flex items-center justify-center">
+          <div class="mt-5 flex w-full items-center justify-between">
+            <p className="text-secondary flex items-center justify-center font-bold">
+              ليس لديك حساب؟
+              <Link to="/company-register" className="text-secondary underline">
+                انشاء حساب
+              </Link>
+            </p>
             <button
               type="submit"
-              className="bg-primary hover:bg-secondary block cursor-pointer rounded-3xl px-6 py-3 text-lg tracking-wider text-white"
+              class="bg-primary hover:bg-secondary block cursor-pointer rounded-3xl px-6 py-3 text-lg tracking-wider text-white"
             >
               {isSignningIn ? (
                 <Oval

@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import SignIn from "./Pages/SignIn";
+import Register from "./Pages/Register";
 import { StatesProvider } from "./Context/Context";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
@@ -15,6 +16,7 @@ function App() {
       <StatesProvider>
         <Routes>
           <Route path="/company-signin" element={<SignIn />} />
+          <Route path="/company-register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
